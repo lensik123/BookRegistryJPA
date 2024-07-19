@@ -1,0 +1,39 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Title</title>
+</head>
+<body>
+<form th:method="POST" th:action="@{/books/search}">
+  <label for="search">Введите поисковой запрос: </label>
+  <input type="text" name="query" id="search">
+  <br>
+  <input type="submit" value="Искать!"/>
+</form>
+<hr/>
+
+
+<span>Книги:</span>
+<ul>
+  <div th:each="book : ${books}" class="book">
+    <a th:href="@{/books/{id}(id=${book.getId()})}"
+       th:text="${book.getTitle() + ', ' + book.getAuthor() + ', ' + book.getYear()}">book</a>
+
+    <br/>
+    <div th:if="${book.getOwner() != null}">
+      <span>Книга сейчас у: </span>
+      <a th:href="@{/people/{id}(id=${book.getOwner().getId()})}"
+        th:text="${book.getOwner().getFullName()}">Person Name</a>
+      <hr/>
+    </div>
+
+    <div th:if="${book.getOwner() == null}">
+      <span>Книга свободна</span>
+      <hr/>
+    </div>
+  </div>
+</ul>
+</body>
+</html>
+
